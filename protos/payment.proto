@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package payment;
+import "common.proto";
+
+/// P2P to‘lovlarni boshqaruvchi asosiy servis.
+/// Tranzaksiyalarni yaratish va holatini yuritish shu yerda amalga oshiriladi.
+service PaymentService {
+
+  /// Foydalanuvchilar o‘rtasida P2P to‘lov yaratadi.
+  ///
+  /// So‘rov:
+  /// - from_user_id: jo‘natuvchi foydalanuvchi
+  /// - to_user_id: qabul qiluvchi foydalanuvchi
+  /// - amount: o‘tkazilayotgan summa
+  ///
+  /// Javob:
+  /// - transaction_id: tranzaksiya identifikatori
+  /// - status: tranzaksiya holati
+  rpc CreateP2P (CreateP2PRequest) returns (TransactionResponse);
+
+  /// Foydalanuvchining tranzaksiya tarixini qaytaradi.
+  rpc GetHistory (GetHistoryRequest) returns (TransactionHistoryResponse);
+}
+
+/// P2P to‘lov yaratish uchun so‘rov.
+message CreateP2PRequest {
+
+  /// Pul yuborayotgan foydalanuvchi identifikatori.
+  string from_user_id = 1;
+
+  /// Pul qabul qilayotgan foydalanuvchi identifikatori.
+  string to_user_id = 2;
+
+  /// O‘tkazilayotgan summa (eng kichik birlikda).
+  int64 amount = 3;
+}
+
+/// Tranzaksiya ma’lumotlari.
+message TransactionResponse {
+
+  /// Tranzaksiya identifikatori.
+  string transaction_id = 1;
+
+  /// Tranzaksiya holati.
+  common.Status status = 2;
+}
+
+/// Tranzaksiya tarixini olish so‘rovi.
+message GetHistoryRequest {
+
+  /// Foydalanuvchi identifikatori.
+  string user_id = 1;
+}
+
+/// Tranzaksiya tarixi.
+message TransactionHistoryResponse {
+
+  /// Tranzaksiyalar ro‘yxati.
+  repeated TransactionResponse transactions = 1;
+}

@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package card;
+
+/// Foydalanuvchi kartalarini boshqarish xizmati.
+/// Payme / Click orqali karta bog‘lash ishlari shu yerda amalga oshiriladi.
+service CardService {
+
+  /// Yangi kartani tizimga bog‘laydi.
+  rpc LinkCard (LinkCardRequest) returns (CardResponse);
+
+  /// Foydalanuvchiga bog‘langan barcha kartalarni qaytaradi.
+  rpc ListCards (ListCardsRequest) returns (CardListResponse);
+
+  /// Kartani tizimdan o‘chiradi.
+  rpc RemoveCard (RemoveCardRequest) returns (CardResponse);
+}
+
+/// Kartani bog‘lash uchun so‘rov.
+message LinkCardRequest {
+
+  /// Foydalanuvchi identifikatori.
+  string user_id = 1;
+
+  /// To‘lov provayderi nomi (PAYME yoki CLICK).
+  string provider = 2;
+
+  /// Provayder tomonidan berilgan karta tokeni.
+  string token = 3;
+}
+
+/// Kartalar ro‘yxatini olish so‘rovi.
+message ListCardsRequest {
+
+  /// Foydalanuvchi identifikatori.
+  string user_id = 1;
+}
+
+/// Kartani o‘chirish so‘rovi.
+message RemoveCardRequest {
+
+  /// Karta identifikatori.
+  string card_id = 1;
+}
+
+/// Karta ma’lumotlari.
+message CardResponse {
+
+  /// Karta identifikatori.
+  string card_id = 1;
+
+  /// Maskalangan karta raqami (masalan: **** 1234).
+  string masked_pan = 2;
+
+  /// To‘lov provayderi.
+  string provider = 3;
+}
+
+/// Kartalar ro‘yxati.
+message CardListResponse {
+
+  /// Foydalanuvchiga tegishli kartalar.
+  repeated CardResponse cards = 1;
+}

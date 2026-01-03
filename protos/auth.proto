@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package auth;
+
+/// Telefon raqam orqali autentifikatsiya qilish xizmati.
+/// OTP (bir martalik kod) yordamida login va ro‘yxatdan o‘tish amalga oshiriladi.
+service AuthService {
+
+  /// Ko‘rsatilgan telefon raqamga OTP (SMS kod) yuboradi.
+  ///
+  /// Ushbu RPC ro‘yxatdan o‘tish va login jarayonida ishlatiladi.
+  rpc RequestOtp (RequestOtpRequest) returns (OtpResponse);
+
+  /// Yuborilgan OTP kodni tekshiradi va access token qaytaradi.
+  rpc VerifyOtp (VerifyOtpRequest) returns (AuthResponse);
+}
+
+/// OTP yuborish uchun so‘rov xabari.
+message RequestOtpRequest {
+
+  /// Telefon raqam (xalqaro formatda, masalan: +998901234567).
+  string phone = 1;
+}
+
+/// OTP tasdiqlash uchun so‘rov xabari.
+message VerifyOtpRequest {
+
+  /// OTP yuborilgan telefon raqam.
+  string phone = 1;
+
+  /// SMS orqali yuborilgan bir martalik kod.
+  string code = 2;
+}
+
+/// OTP yuborish natijasi.
+message OtpResponse {
+
+  /// OTP muvaffaqiyatli yuborilganini bildiradi.
+  bool sent = 1;
+}
+
+/// Muvaffaqiyatli autentifikatsiya natijasi.
+message AuthResponse {
+
+  /// Foydalanuvchining unikal identifikatori.
+  string user_id = 1;
+
+  /// API chaqiriqlari uchun JWT access token.
+  string access_token = 2;
+}

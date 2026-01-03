@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package user;
+
+/// Foydalanuvchi profili bilan ishlash xizmati.
+service UserService {
+
+  /// Foydalanuvchi profil ma’lumotlarini qaytaradi.
+  rpc GetProfile (GetProfileRequest) returns (UserProfile);
+
+  /// Foydalanuvchi profilini yangilaydi.
+  rpc UpdateProfile (UpdateProfileRequest) returns (UserProfile);
+
+  /// Foydalanuvchini bloklash yoki blokdan chiqarish (admin uchun).
+  rpc SetBlocked (SetBlockedRequest) returns (UserProfile);
+}
+
+/// Profilni olish uchun so‘rov.
+message GetProfileRequest {
+
+  /// Foydalanuvchi identifikatori.
+  string user_id = 1;
+}
+
+/// Profilni yangilash uchun so‘rov.
+message UpdateProfileRequest {
+
+  /// Foydalanuvchi identifikatori.
+  string user_id = 1;
+
+  /// Foydalanuvchi ismi.
+  string name = 2;
+
+  /// Avatar rasmi URL manzili.
+  string avatar_url = 3;
+}
+
+/// Foydalanuvchini bloklash yoki blokdan chiqarish so‘rovi.
+message SetBlockedRequest {
+
+  /// Foydalanuvchi identifikatori.
+  string user_id = 1;
+
+  /// true bo‘lsa – bloklanadi, false bo‘lsa – blokdan chiqariladi.
+  bool blocked = 2;
+}
+
+/// Foydalanuvchi profili.
+message UserProfile {
+
+  /// Foydalanuvchi identifikatori.
+  string user_id = 1;
+
+  /// Telefon raqam.
+  string phone = 2;
+
+  /// Foydalanuvchi ismi.
+  string name = 3;
+
+  /// Avatar URL.
+  string avatar_url = 4;
+
+  /// Foydalanuvchi bloklangan yoki yo‘qligi.
+  bool blocked = 5;
+}

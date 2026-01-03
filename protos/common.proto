@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package common;
+
+/// Umumiy bo‘sh xabar.
+/// Hech qanday ma’lumot yuborish yoki qaytarish talab qilinmagan holatlarda ishlatiladi.
+message Empty {}
+
+/// Operatsiya yoki tranzaksiya holatini bildiruvchi enum.
+enum Status {
+  /// Noma’lum holat (default qiymat).
+  STATUS_UNSPECIFIED = 0;
+
+  /// Operatsiya yaratildi, lekin hali yakunlanmadi.
+  PENDING = 1;
+
+  /// Operatsiya muvaffaqiyatli yakunlandi.
+  SUCCESS = 2;
+
+  /// Operatsiya xatolik bilan yakunlandi.
+  FAILED = 3;
+}

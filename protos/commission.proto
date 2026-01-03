@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package commission;
+
+/// Tranzaksiya uchun komissiya hisoblash xizmati.
+service CommissionService {
+
+  /// Berilgan summa asosida komissiya miqdorini hisoblaydi.
+  rpc CalculateCommission (CommissionRequest) returns (CommissionResponse);
+}
+
+/// Komissiya hisoblash so‘rovi.
+message CommissionRequest {
+
+  /// Tranzaksiya summasi.
+  int64 amount = 1;
+}
+
+/// Komissiya hisoblash natijasi.
+message CommissionResponse {
+
+  /// Hisoblangan komissiya summasi.
+  int64 commission_amount = 1;
+
+  /// Qo‘llangan komissiya foizi.
+  double percent = 2;
+}
